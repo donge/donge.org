@@ -25,13 +25,19 @@ profilePicture = "https://avatars.githubusercontent.com/u/1329129?s=400&v=4"
   url = "/posts/"
 
   [[menu.main]]
-  name = "Resume"
+  name = "AI"
   weight = 300
+  identifier = "ai"
+  url = "/ai/"
+
+  [[menu.main]]
+  name = "Resume"
+  weight = 400
   identifier = "resume"
   url = "/resume/"
 
   [[menu.main]]
   name = "About"
-  weight = 400
+  weight = 500
   identifier = "about"
   url = "/about/"
