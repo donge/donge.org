@@ -1,0 +1,20 @@
+# Astro build output
+dist/
+
+# Astro type cache
+.astro/
+
+# Node dependencies
+node_modules/
+
+# Hugo build artifacts
+resources/
+.hugo_build.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
