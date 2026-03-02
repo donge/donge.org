@@ -71,6 +71,25 @@ jobs:
                   uses: actions/deploy-pages@v4
           EOF
 
+      - name: Verify token
+        env:
+          PAGES_DEPLOY_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$PAGES_DEPLOY_TOKEN" ]; then
+            echo "ERROR: PAGES_DEPLOY_TOKEN is empty or not set"
+            exit 1
+          fi
+          echo "Token length: ${#PAGES_DEPLOY_TOKEN}"
+          # Test token against GitHub API
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $PAGES_DEPLOY_TOKEN" \
+            https://api.github.com/repos/donge/donge.github.io)
+          echo "API status for donge/donge.github.io: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "ERROR: Token cannot access donge/donge.github.io (HTTP $STATUS)"
+            exit 1
+          fi
+
       - name: Push to donge.github.io
         env:
           PAGES_DEPLOY_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
@@ -83,4 +102,5 @@ jobs:
           git add -A
           git commit -m "deploy: $(date -u +%Y-%m-%dT%H:%M:%SZ) @ ${GITHUB_SHA::7}"
           git remote add origin "https://x-access-token:${PAGES_DEPLOY_TOKEN}@github.com/donge/donge.github.io.git"
+          GIT_TRACE=1 git push --force origin master 2>&1 || true
           git push --force origin master
