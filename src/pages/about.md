@@ -13,6 +13,6 @@ donge，程序员，折腾爱好者。
 
 ---
 
-<a href="/resume/about/" data-astro-reload>在线简历 →</a>
+<a href="/resume/" data-astro-reload>在线简历 →</a>
 
-<a href="/resume/" data-astro-reload>Resume PDF →</a>
+<a href="/resume/about/" data-astro-reload>关于我 →</a>
