@@ -1,24 +1,19 @@
-name: Deploy to GitHub Pages
+name: Deploy to donge.github.io
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: "deploy"
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -33,18 +28,59 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+      - name: Prepare deploy workflow
+        run: |
+          mkdir -p dist/.github/workflows
+          cat > dist/.github/workflows/deploy.yml << 'EOF'
+          name: Deploy Pages
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          on:
+            push:
+              branches: [master]
+            workflow_dispatch:
+
+          permissions:
+            contents: read
+            pages: write
+            id-token: write
+
+          concurrency:
+            group: "pages"
+            cancel-in-progress: false
+
+          jobs:
+            deploy:
+              runs-on: ubuntu-latest
+              environment:
+                name: github-pages
+                url: ${{ steps.deployment.outputs.page_url }}
+              steps:
+                - name: Checkout
+                  uses: actions/checkout@v4
+
+                - name: Setup Pages
+                  uses: actions/configure-pages@v5
+
+                - name: Upload artifact
+                  uses: actions/upload-pages-artifact@v3
+                  with:
+                    path: "."
+
+                - name: Deploy to GitHub Pages
+                  id: deployment
+                  uses: actions/deploy-pages@v4
+          EOF
+
+      - name: Push to donge.github.io
+        env:
+          PAGES_DEPLOY_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+        run: |
+          cd dist
+          git init
+          git checkout -b master
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy: $(date -u +%Y-%m-%dT%H:%M:%SZ) @ ${GITHUB_SHA::7}"
+          git remote add origin "https://x-access-token:${PAGES_DEPLOY_TOKEN}@github.com/donge/donge.github.io.git"
+          git push --force origin master
