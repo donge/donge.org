@@ -3,9 +3,12 @@ title: "量化交易初感悟"
 pubDatetime: 2014-02-16T00:00:00+08:00
 draft: false
 tags:
+  - "quant"
   - "blog"
 description: "量化交易，也称算法交易或自动交易等等，就是利用数值分析，概率统计，通过计算机建模，自动完成交易。Wiki"
 ---
+> **[2026年更新]** 沉淀多年后，我基于 ClickHouse 和 Agentic Workflow 开发了 [TDX-DuckDB](https://github.com/donge/tdx) 回测系统，实现了通达信公式到 SQL 的自动转换。详见：[TDX-DuckDB: 基于 Agentic Workflow 的通达信公式回测系统](./2026-03-22-tdx-backtest-agent)
+
 量化交易，也称算法交易或自动交易等等，就是利用数值分析，概率统计，通过计算机建模，自动完成交易。[Wiki](http://en.wikipedia.org/wiki/Algorithmic_trading)
 我是一个程序员，又是一个投资爱好者，当遇到Bitcoin时，我意识它给我提供了一个了解和实践量化交易的机会。
 自己摸索了一段时间，有一些不成熟的感悟，希望如果有大牛看到，务必提点一下。
