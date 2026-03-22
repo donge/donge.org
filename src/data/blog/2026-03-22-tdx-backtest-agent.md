@@ -1,8 +1,8 @@
 ---
 title: "TDX-DuckDB: 基于 Agentic Workflow 的通达信公式回测系统"
 author: "donge"
-pubDatetime: 2026-03-22T21:00:00+08:00
-modDatetime: 2026-03-22T21:00:00+08:00
+pubDatetime: 2026-03-22T08:00:00+08:00
+modDatetime: 2026-03-22T08:00:00+08:00
 featured: true
 draft: false
 tags:
