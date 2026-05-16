@@ -13,6 +13,12 @@ donge，程序员，折腾爱好者。
 
 ---
 
+## 专题
+
+<a href="/on-device-inference/" data-astro-reload>端侧推理技术图谱 →</a>
+
+---
+
 <a href="/resume/" data-astro-reload>在线简历 →</a>
 
 <a href="/resume/about/" data-astro-reload>关于我 →</a>
