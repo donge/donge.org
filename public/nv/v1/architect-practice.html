@@ -8,7 +8,7 @@
 <a href="#topic-3"><span data-l="zh" class="">领导力与跨团队</span><span data-l="en" class="">Leadership &amp; cross-team</span></a>
 <a href="#topic-4"><span data-l="zh" class="">开源与标准</span><span data-l="en" class="">Open source &amp; standards</span></a>
 <a href="#topic-5"><span data-l="zh" class="">专利、白皮书与传播</span><span data-l="en" class="">Patents, whitepapers &amp; communication</span></a>
-</aside>
+<a href="#diagram"><span data-l="zh" class="">图示</span><span data-l="en" class="">Diagram</span></a></aside>
 <main><div class="number">27 / 27</div>
 <h1 data-l="zh" class="">架构师方法学与影响力</h1><h1 data-l="en" class="">Architect methodology &amp; influence</h1>
 <p class="lead" data-l="zh" class="">前 26 页是技术；这一页补上 JD 明确要求、但技术速查表通常缺失的架构师软能力：方法学、权衡、领导力、开源标准与影响力。</p>
@@ -44,7 +44,10 @@
 <p data-l="zh" class="">记录设计取舍与基准，便于复用与复盘；对外表达遵循「先结论、后论证、给证据」。</p>
 <p data-l="en" class="">Record design tradeoffs and benchmarks for reuse and retrospectives; when presenting, lead with the conclusion, then the argument, then the evidence.</p></section>
 
-<footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
+<section id="diagram"><h2 data-l="zh" class="">图示</h2><h2 data-l="en" class="">Diagram</h2><p data-l="zh" class="">架构决策流程与权衡记分卡。</p><p data-l="en" class="">Architecture decision flow and tradeoff scorecard.</p><pre>需求 ─► 约束 ─► 架构决策(ADR) ─► 接口契约 ─► 验证 ─► 复盘
+备选 ─► 记分卡(容量/时延/恢复上界/成本/风险) ─► 选择 ─► 原型验证
+原则: 用数据 · 分必需/期望 · 优先可逆 · 一次一变量
+反模式: 过早优化 · 隐式耦合 · 无 owner 共享状态 · 静默降级</pre></section><footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
 <a href="https://github.com/opencomputeproject/SAI" target="_blank" rel="noopener">[S4] <span data-l="zh" class="">OCP SAI</span><span data-l="en" class="">OCP SAI</span></a>
 <a href="https://github.com/sonic-net/SONiC/wiki/Architecture" target="_blank" rel="noopener">[S3] <span data-l="zh" class="">SONiC 架构</span><span data-l="en" class="">SONiC architecture</span></a>
 <a href="https://ultraethernet.org/" target="_blank" rel="noopener">[S20] <span data-l="zh" class="">Ultra Ethernet Consortium</span><span data-l="en" class="">Ultra Ethernet Consortium</span></a>

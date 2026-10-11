@@ -8,7 +8,7 @@
 <a href="#topic-3"><span data-l="zh" class="">SONiC 到 SDK 调用路径</span><span data-l="en" class="">SONiC → SDK call path</span></a>
 <a href="#topic-4"><span data-l="zh" class="">SDK 调试与可观测</span><span data-l="en" class="">SDK debug &amp; observability</span></a>
 <a href="#topic-5"><span data-l="zh" class="">企业版与社区版</span><span data-l="en" class="">Enterprise vs community</span></a>
-</aside>
+<a href="#diagram"><span data-l="zh" class="">图示</span><span data-l="en" class="">Diagram</span></a></aside>
 <main><div class="number">26 / 27</div>
 <h1 data-l="zh" class="">SAI ↔ SDK ↔ SONiC 集成</h1><h1 data-l="en" class="">SAI ↔ SDK ↔ SONiC integration</h1>
 <p class="lead" data-l="zh" class="">这页把 1.html 里「SDK / SAI 接口」和「NOS / SONiC」两节从抽象层落到 Spectrum 的实际映射：SAI 门面、厂商实现、SX SDK、内核驱动的分工与数据流。</p>
@@ -52,7 +52,10 @@
 <p data-l="zh" class="">跨版本升级需核对 SAI 头/扩展、SDK 版本兼容矩阵与 warm-boot 支持；schema 迁移不可逆时，回滚需要兼容数据，而不仅是旧镜像可启动。</p>
 <p data-l="en" class="">Cross-version upgrades must check SAI headers/extensions, the SDK compatibility matrix and warm-boot support; when schema migration is irreversible, rollback needs compatible data, not merely a bootable old image.</p></section>
 
-<footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
+<section id="diagram"><h2 data-l="zh" class="">图示</h2><h2 data-l="en" class="">Diagram</h2><p data-l="zh" class="">端到端配置链路（单条因果链，非并行）。</p><p data-l="en" class="">End-to-end config path (one causal chain, not parallel).</p><pre>orchagent ─写► Redis ASIC_DB ─► syncd ─► libsai(sai_*) ─► sx_api_*
+  ─► /dev/sxcdev ─► sx_core.ko ─► HCR/EMAD ─► PCIe ─► ASIC 生效
+  ─► 完成事件 EQ→CQ ─► 驱动 ─► SDK ─► syncd ─► 回写 Redis
+同步阻塞: 用户态在 ioctl 等待, 完成才返回 ; syncd 是唯一 SAI 写入者</pre></section><footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
 <a href="https://github.com/Mellanox/SAI-Implementation" target="_blank" rel="noopener">[S19] <span data-l="zh" class="">mlnx_sai（libsai 厂商实现）</span><span data-l="en" class="">mlnx_sai (vendor libsai)</span></a>
 <a href="https://github.com/opencomputeproject/SAI" target="_blank" rel="noopener">[S4] <span data-l="zh" class="">OCP SAI 接口</span><span data-l="en" class="">OCP SAI interfaces</span></a>
 <a href="https://github.com/sonic-net/SONiC/wiki/Architecture" target="_blank" rel="noopener">[S3] <span data-l="zh" class="">SONiC 架构</span><span data-l="en" class="">SONiC architecture</span></a>

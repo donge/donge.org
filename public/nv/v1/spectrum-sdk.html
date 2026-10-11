@@ -9,7 +9,7 @@
 <a href="#topic-4"><span data-l="zh" class="">队列与中断</span><span data-l="en" class="">Queues &amp; interrupts</span></a>
 <a href="#topic-5"><span data-l="zh" class="">trap / syndrome / BFD</span><span data-l="en" class="">Traps, syndromes &amp; BFD</span></a>
 <a href="#topic-6"><span data-l="zh" class="">设计模式与代际</span><span data-l="en" class="">Design patterns &amp; generations</span></a>
-</aside>
+<a href="#diagram"><span data-l="zh" class="">图示</span><span data-l="en" class="">Diagram</span></a></aside>
 <main><div class="number">25 / 27</div>
 <h1 data-l="zh" class="">Spectrum SDK 本体</h1><h1 data-l="en" class="">Spectrum SDK internals</h1>
 <p class="lead" data-l="zh" class="">这页补上速查表原本缺失的中间层：NVIDIA Ethernet Switch SDK（SX SDK，内部 sxd_libs）与其内核驱动 sx_core.ko。SAI 之上是 NOS，SAI 之下就是这里。</p>
@@ -59,7 +59,12 @@ hardware   :  PCIe (BAR / doorbell / DMA / MSI-X)  →  Spectrum ASIC</pre>
 <p data-l="zh" class="">代际差异由 <code>resource_manager</code>（<code>spectrumN.h</code>、<code>switch_quantum*.h</code>、<code>switch_ib.h</code>）描述，一个内核二进制通吃多代 ASIC。变化点收敛为函数表而非散落 <code>#ifdef</code>；这些 SDK 设计原则可迁移到任何芯片栈。</p>
 <p data-l="en" class="">Generation differences live in <code>resource_manager</code> (<code>spectrumN.h</code>, <code>switch_quantum*.h</code>, <code>switch_ib.h</code>), so one kernel binary serves multiple ASIC generations. Variation points collapse into tables rather than scattered <code>#ifdef</code>s; these SDK principles transfer to any chip stack.</p></section>
 
-<footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
+<section id="diagram"><h2 data-l="zh" class="">图示</h2><h2 data-l="en" class="">Diagram</h2><p data-l="zh" class="">Spectrum SDK 本体：用户态分层 + 内核驱动。</p><p data-l="en" class="">Spectrum SDK internals: user-space layering + kernel driver.</p><pre>sx_api_* ──► SDK core ──► resource_manager ──► access
+   │
+   └─► /dev/sxcdev ◄── ioctl / read / write / mmap ── sx_core.ko
+            命令: HCR 邮箱 | EMAD 报文(ethertype 8932)
+            队列: EQ(事件) → CQ(完成) → DQ(SDQ/RDQ)
+            上送: trap/syndrome → listener → 用户态 poll/read</pre></section><footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
 <a href="https://github.com/Mellanox/Spectrum-SDK-Drivers" target="_blank" rel="noopener">[S16] <span data-l="zh" class="">Spectrum-SDK-Drivers（内核驱动，本仓库）</span><span data-l="en" class="">Spectrum-SDK-Drivers (kernel driver)</span></a>
 <a href="https://github.com/Mellanox/Spectrum-SDK-Drivers-SONiC-Bins/releases" target="_blank" rel="noopener">[S17] <span data-l="zh" class="">sys-sdk / sx-kernel 二进制包</span><span data-l="en" class="">sys-sdk / sx-kernel binaries</span></a>
 <a href="https://github.com/Mellanox/SwitchRouterSDK-interfaces" target="_blank" rel="noopener">[S18] <span data-l="zh" class="">Switch/Router SDK 接口（sx_api_*.h）</span><span data-l="en" class="">Switch/Router SDK interfaces (sx_api_*.h)</span></a>
