@@ -1,7 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
-import { SITE } from "@/config";
+import { ADSENSE, hasAdsenseClient, SITE } from "@/config";
 import "@/styles/global.css";
 
 type Props = {
@@ -115,6 +115,31 @@ const structuredData = {
     />
 
     <meta name="theme-color" content="" />
+
+    {
+      hasAdsenseClient() && (
+        <>
+          <meta name="google-adsense-account" content={ADSENSE.client} />
+          {/* 注意：故意不加 data-astro-rerun，加载器只需执行一次 */}
+          <script
+            is:inline
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE.client}`}
+            crossorigin="anonymous"
+          />
+          {/* ClientRouter 是软导航，<head> 脚本不会重跑，
+              所以要在每次 astro:page-load 后把新的广告位重新 push 给 AdSense */}
+          <script is:inline>
+            document.addEventListener("astro:page-load", () => {
+              document.querySelectorAll("ins.adsbygoogle").forEach(el => {
+                if (el.getAttribute("data-adsbygoogle-status")) return;
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+              });
+            });
+          </script>
+        </>
+      )
+    }
 
     {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,

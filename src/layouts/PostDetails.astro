@@ -9,11 +9,12 @@ import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import AdSlot from "@/components/AdSlot.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
-import { SITE } from "@/config";
+import { ADSENSE, SITE } from "@/config";
 
 type Props = {
   post: CollectionEntry<"blog">;
@@ -107,12 +108,25 @@ const nextPost =
       >
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
+
+    <AdSlot
+      slot={ADSENSE.slots.postTop}
+      format="horizontal"
+      class="mt-10 mb-2"
+    />
+
     <article
       id="article"
       class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
     >
       <Content />
     </article>
+
+    <AdSlot
+      slot={ADSENSE.slots.postBottom}
+      format="horizontal"
+      class="mt-10 mb-2"
+    />
 
     <hr class="my-8 border-dashed" />
 

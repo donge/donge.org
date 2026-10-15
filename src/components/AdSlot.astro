@@ -1,0 +1,45 @@
+---
+import { ADSENSE, isAdsenseReady } from "@/config";
+
+interface Props {
+  /** 广告单元 ID，来自 ADSENSE.slots.* */
+  slot: string;
+  /** 广告格式：auto | horizontal | rectangle | vertical */
+  format?: string;
+  /** 信息流/多重广告的 layout，例如 "in-article" */
+  layout?: string;
+  /** 是否全宽自适应 */
+  fullWidthResponsive?: boolean;
+  class?: string;
+}
+
+const {
+  slot,
+  format = "auto",
+  layout,
+  fullWidthResponsive = true,
+  class: className = "",
+} = Astro.props;
+
+const enabled = isAdsenseReady(slot);
+---
+
+{
+  /* 未配置或未开启时不渲染任何节点，避免产生无效广告请求 */
+  enabled && (
+    <div
+      class:list={["ad-slot my-8 overflow-hidden", className]}
+      data-pagefind-ignore
+    >
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={ADSENSE.client}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-ad-layout={layout}
+        data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
+      />
+    </div>
+  )
+}
